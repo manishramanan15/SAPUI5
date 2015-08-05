@@ -23,7 +23,6 @@ sap.ui.core.UIComponent.extend("sap.ui.fame.Component", {
 				routerClass : sap.ui.fame.Router,
 				viewType : "JS",
 				viewPath : "sap.ui.fame.view",
-				targetAggregation : "detailPages",
 				clearTarget : false
 			},
 			routes : [
@@ -31,7 +30,6 @@ sap.ui.core.UIComponent.extend("sap.ui.fame.Component", {
 					pattern : "",
 					name : "main",
 					view : "Master",
-					targetAggregation : "masterPages",
 					targetControl : "idAppControl",
 					subroutes : [
 						{

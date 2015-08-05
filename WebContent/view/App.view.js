@@ -17,67 +17,29 @@ sap.ui.jsview("sap.ui.fame.view.App", {
 		// to avoid scroll bars on desktop the root view must be set to block display
 		this.setDisplayBlock(true);
 		
+		//create an app
+		this.app = new sap.m.App({
+			id : "idAppControl", // sap.ui.core.ID
+			visible : true, // boolean
+			height : "100%", // sap.ui.core.CSSSize
+			width : "100%", // sap.ui.core.CSSSize
+			visible : true, // boolean
+			defaultTransitionName : "slide", // string, since 1.7.1
+			homeIcon : "img/favicon.ico", // any
+			backgroundColor : "#F8FFF8", // string, since 1.11.2
+		});
 		
-		 var view = this;
-         
-	        //Create a panel instance
-	        var oPanel = new sap.ui.commons.Panel({width: "450px"});
-
-	        //Set the title of the panel
-	        oPanel.setTitle(new sap.ui.core.Title({text: "Secure Login", icon: "img/al.png"}));
-	        
-	        //Create a matrix layout with 2 columns
-	        var oMatrix = new sap.ui.commons.layout.MatrixLayout({layoutFixed: true, width: '300px', columns: 2});
-	        oMatrix.setWidths('100%', '100%');
-
-	        
-	        var txt_user = new sap.ui.commons.TextField('txt_userid'); 
-	        var lb_user = new sap.ui.commons.Label('lb_userid',{
-	        	text:"User ID:"
-	        });
-	        lb_user.setLabelFor(txt_user);
-	        oMatrix.createRow(lb_user, txt_user);
-
-	        	
-	        var txt_pass = new sap.ui.commons.PasswordField('txt_pass');
-	        var lb_pass = new sap.ui.commons.Label('lb_pass',{
-	        	text : "Password"
-	        });
-	        lb_pass.setLabelFor(txt_pass);
-	        oMatrix.createRow(lb_pass, txt_pass);
-	        
-	        var btn_login = new sap.ui.commons.Button("btn_login",{
-	        	text : "Login",
-	        	style : sap.ui.commons.ButtonStyle.Accept,
-	        	press : function(event){
-	        		
-	        		if(txt_user.getValue()==""){
-	        			sap.ui.commons.MessageBox.alert("Please Etner a valid User Id!");
-	        			return false;
-	        		}
-	        		
-	        		if(txt_pass.getValue()==""){
-	        			sap.ui.commons.MessageBox.alert("Please Etner a valid Password!");
-	        			return false; 
-	        		}
-	        		
-	        		oController.authenticate(event);
-	        	}
-	        }); 
-
-	        var lb_login = new sap.ui.commons.Label('lb_login',{
-	        	text : ""
-	        });
-
-	        oMatrix.createRow(lb_login,btn_login);
-	        
-	        
-	        //Add the form to the panels content area
-	        oPanel.addContent(oMatrix);  
-	      
-	  
-	        return oPanel;
-
+		var device = sap.ui.getCore().getModel("device");
+		console.log(device);
+		
+		var viewName = sap.ui.Device.system.desktop ? "sap.ui.fame.d.view.FameLogin" : "sap.ui.fame.m.view.FameLogin"
+		
+		
+		var login = sap.ui.Device.system.desktop ? sap.ui.jsview("login",viewName): sap.ui.xmlview("login",viewName);
+		login.getController().nav = this.getController();
+		this.app.addPage(login,true);
+		
+		return this.app;
 		
 	}
 
