@@ -1,7 +1,7 @@
-jQuery.sap.declare("sap.ui.fame.Component");
+jQuery.sap.declare("sap.ui.fame.m.Component");
+jQuery.sap.require("sap.ui.fame.m.Router");
 
-
-sap.ui.core.UIComponent.extend("sap.ui.fame.Component", {
+sap.ui.core.UIComponent.extend("sap.ui.fame.m.Component", {
 	metadata : {
         name : "Fame App",
         version : "1.0",
@@ -10,6 +10,7 @@ sap.ui.core.UIComponent.extend("sap.ui.fame.Component", {
             libs : ["sap.m", "sap.ui.layout","sap.me","sap.ui.commons","sap.ui.unified"],
             components : []
         },
+        rootView : "sap.ui.fame.m.view.MainContent",
         config : {
             resourceBundle : "i18n/messageBundle.properties",
             serviceConfig : {
@@ -17,7 +18,43 @@ sap.ui.core.UIComponent.extend("sap.ui.fame.Component", {
                 //serviceUrl : "http://services.odata.org/V2/(S(sapuidemotdg))/OData/OData.svc/"
                 serviceUrl : "model/mock.json"
             }
-        }
+        },
+		routing : {
+			config : {
+				routerClass : sap.ui.fame.m.Router,
+				viewType : "JS",
+				viewPath : "sap.ui.fame.view",
+				clearTarget : false
+			},
+			routes : [
+				{
+					pattern : "",
+					name : "main",
+					view : "Master",
+					targetControl : "idAppControl",
+					subroutes : [
+						{
+							pattern : "{product}/:tab:",
+							name : "product",
+							view : "Detail"
+						}
+					]
+				},
+				{
+					name : "catchallMaster",
+					view : "Master",
+					targetAggregation : "masterPages",
+					targetControl : "idAppControl",
+					subroutes : [
+						{
+							pattern : ":all*:",
+							name : "catchallDetail",
+							view : "NotFound"
+						}
+					]
+				}
+			]
+		}
 
 	},//end metadata
 	
@@ -37,9 +74,9 @@ sap.ui.core.UIComponent.extend("sap.ui.fame.Component", {
         this.setModel(i18nModel, "i18n");
         
         // Create and set domain model to the component
-        //var sServiceUrl = mConfig.serviceConfig.serviceUrl;
-        //var oModel = new sap.ui.model.json.JSONModel(sServiceUrl);
-        //this.setModel(oModel);
+        var sServiceUrl = mConfig.serviceConfig.serviceUrl;
+        var oModel = new sap.ui.model.json.JSONModel(sServiceUrl);
+        this.setModel(oModel);
 
         // set device model
         var deviceModel = new sap.ui.model.json.JSONModel({
@@ -53,20 +90,8 @@ sap.ui.core.UIComponent.extend("sap.ui.fame.Component", {
         deviceModel.setDefaultBindingMode("OneWay");
         this.setModel(deviceModel, "device");
         
-        //this.getRouter().initialize();
+        this.getRouter().initialize();
 		
-	},//end init
+	}//end init
 	
-	createContent : function() {
-		// create root view
-		var oView = sap.ui.view({
-			id : "app",
-			viewName : "sap.ui.fame.view.App",
-			type : "JS",
-			viewData : { component : this }
-		});
-		
-		// done
-		return oView;
-	}
 })

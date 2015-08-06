@@ -59,7 +59,7 @@ sap.ui.controller("sap.ui.fame.d.view.FameLogin", {
 			if(dialog.getText() == "Authenticated"){
 				clearInterval(intervalID);
 				dialog.close();
-				window.location="fame/main/index.html";
+				window.location="d/index.html";
 			}
 					
 			dialog.setText(sText);

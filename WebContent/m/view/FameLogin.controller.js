@@ -81,7 +81,7 @@ authenticate : function(event){
 			if(dialog.getText() == "Authenticated"){
 				clearInterval(intervalID);
 				dialog.close();
-				//window.location="fame/main/index.html";
+				window.location="m/index.html";
 				console.log(this.getModel("device"));
 			}
 					

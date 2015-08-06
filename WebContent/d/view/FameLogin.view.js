@@ -1,3 +1,5 @@
+jQuery.sap.require("sap.m.MessageBox")
+
 sap.ui.jsview("sap.ui.fame.d.view.FameLogin", {
 
 	/** Specifies the Controller belonging to this View. 
@@ -57,12 +59,24 @@ sap.ui.jsview("sap.ui.fame.d.view.FameLogin", {
 	        	press : function(event){
 	        		
 	        		if(txt_user.getValue()==""){
-	        			sap.ui.commons.MessageBox.alert("Please Etner a valid User Id!");
+	        			sap.ui.commons.MessageBox.show("Please Etner a valid User Id!",{
+	        				icon: sap.m.MessageBox.Icon.ERROR,
+	        				title:"Alert!",
+	        				actions: [sap.m.MessageBox.Action.OK],
+	        				styleClass: "sapUiSizeCompact"
+	        						
+	        				});
 	        			return false;
 	        		}
 	        		
 	        		if(txt_pass.getValue()==""){
-	        			sap.ui.commons.MessageBox.alert("Please Etner a valid Password!");
+	        			sap.ui.commons.MessageBox.show("Please Etner a valid Password!",{
+	        				icon: sap.m.MessageBox.Icon.ERROR,
+	        				title:"Alert!",
+	        				actions: [sap.m.MessageBox.Action.OK],
+	        				styleClass: "sapUiSizeCompact"
+	        						
+	        				});
 	        			return false; 
 	        		}
 	        		
@@ -81,10 +95,11 @@ sap.ui.jsview("sap.ui.fame.d.view.FameLogin", {
 	        oPanel.addContent(oMatrix);  
 	      
 	        oBorderLayout.createArea(sap.ui.commons.layout.BorderLayoutAreaTypes.center,oPanel);
+	        
 	        oBorderLayout.setAreaData(sap.ui.commons.layout.BorderLayoutAreaTypes.center, {
 	        	contentAlign : "center",
 	        	visible : true
-	        	});
+	        });
 
 	  
 	        return oBorderLayout;
